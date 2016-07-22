@@ -1,0 +1,69 @@
+#
+# generated on 2016/07/22 03:39:46
+#
+# --table-start--
+dataClass=py.com.marcelo.pescaapp.modelo.Variedad
+tableName=variedades
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=codigo
+# --field-end--
+# --field-start--
+fieldName=nombre
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=py.com.marcelo.pescaapp.modelo.Fiscalizado
+tableName=fiscalizados
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=fiscalia
+canBeNull=false
+indexName=fiscalizados_fiscalia_idx
+# --field-end--
+# --field-start--
+fieldName=equipo
+# --field-end--
+# --field-start--
+fieldName=variedadId
+columnName=variedad_id
+# --field-end--
+# --field-start--
+fieldName=variedadNombre
+columnName=variedad_nombre
+# --field-end--
+# --field-start--
+fieldName=codigoVariedad
+columnName=codigo_variedad
+# --field-end--
+# --field-start--
+fieldName=cantidad
+# --field-end--
+# --field-start--
+fieldName=medidaMayor
+columnName=medida_mayor
+# --field-end--
+# --field-start--
+fieldName=observaciones
+# --field-end--
+# --field-start--
+fieldName=createdOn
+columnName=created_on
+# --field-end--
+# --field-start--
+fieldName=updatedOn
+columnName=updated_on
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
