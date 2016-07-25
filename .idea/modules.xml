@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PescaApp.iml" filepath="$PROJECT_DIR$/PescaApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PescaAppAndroid.iml" filepath="$PROJECT_DIR$/PescaAppAndroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

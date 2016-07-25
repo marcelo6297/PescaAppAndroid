@@ -24,7 +24,12 @@ import py.com.marcelo.pescaapp.modelo.Variedad;
  * Esta a la escucha de los cambios del spinner, y tambien tiene el helper
  * que se encarga de cargar los datos
  * Es importante hacer que la vista sincronice los datos de la variedad seleccionada
- * tambien hacer que
+ * tambien hacer que cuando se edita un dato, la vista seleccione que datos mostrar
+ * ==========================
+ * En el spinner utilizar el metodo spinner.setSelection
+ * Para Utilizar este metodo crear un metodo en el adapter que permita obtener el indice
+ * de un elemento.
+ *
  *
  */
 public class FiscalizadoPresenter extends AbstractPresenter implements AdapterView.OnItemSelectedListener{
@@ -42,6 +47,9 @@ public class FiscalizadoPresenter extends AbstractPresenter implements AdapterVi
 
     @Bindable
     String activityTitle = "Agregar / Actualizar";
+
+    @Bindable
+    Variedad variedad = null;
 
 
     private VariedadesAdapter variedadesAdapter = null;
@@ -69,9 +77,11 @@ public class FiscalizadoPresenter extends AbstractPresenter implements AdapterVi
             Log.i("FiscalizadoPresenter","setItem() pk=" +Integer.toString(pk));
             item = getDatabaseHelper().getFiscalizadoDao().queryBuilder().where().idEq(pk).queryForFirst() ;
 //            buscar tambien los datos de la variedad seleccionada
+            variedad = getDatabaseHelper().getVariedadDao().queryBuilder().where().idEq(item.variedadId).queryForFirst();
 //            y cargar en la vista del spinner los datos de la variedad
 //            seleccionada, y cuando se guarda el item limpiar el combo
             notifyPropertyChanged(BR.item);
+            notifyPropertyChanged(BR.variedad);
         } catch (SQLException e) {
 
             e.printStackTrace();
@@ -113,7 +123,7 @@ public class FiscalizadoPresenter extends AbstractPresenter implements AdapterVi
     public String getCantidad() {
         //tratar de obtener un String
         if (item == null) {return "Item Null";}
-        if (item.cantidad != null || item.cantidad != 0){
+        if ((item.cantidad != null) || (item.cantidad != 0)) {
             return item.cantidad.toString();
         }
         return "";
@@ -142,14 +152,14 @@ public class FiscalizadoPresenter extends AbstractPresenter implements AdapterVi
 
     /**
      * Guardar datos
-     * @return
+     * @return String el resultado de la operacion de guardado
      */
     public String save() {
         //Convertir los datos al tipo adecuado
         //guardar los datos
 //        Fiscalizado fiscalizado =new Fiscalizado(fiscalia, equipo, variedad.codigo, variedad.nombre,  Integer.parseInt(cantidad),  Integer.parseInt(medidaMayor), observacion, new Date());
         Log.i("FiscalizadoPresenter:","Metodo.save()"+ item.toString());
-
+        setVariedad(variedad);
         String result;
         try {
             if (item.id == 0) {
@@ -187,10 +197,7 @@ public class FiscalizadoPresenter extends AbstractPresenter implements AdapterVi
         try {
             variedadList = getDatabaseHelper().getVariedadDao().queryForAll();
             Log.i( "PescaApp.FP.createAdap", variedadList.toString());
-            Variedad variedad = new Variedad();
 
-            variedad.nombre = "Se inicio la seleccion";
-            variedadList.add(variedad);
         } catch (SQLException e) {
             e.printStackTrace();
             variedadList = new ArrayList<>();
@@ -241,6 +248,7 @@ public class FiscalizadoPresenter extends AbstractPresenter implements AdapterVi
             super(context, android.R.layout.simple_spinner_item, variedades);
             this.variedades = variedades;
         }
+
 
     }
 
