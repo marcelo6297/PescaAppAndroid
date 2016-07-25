@@ -49,6 +49,8 @@ public class FiscalizadoPresenter extends AbstractPresenter implements AdapterVi
     String activityTitle = "Agregar / Actualizar";
 
     @Bindable
+    Integer variedadId = null;
+
     Variedad variedad = null;
 
 
@@ -77,11 +79,11 @@ public class FiscalizadoPresenter extends AbstractPresenter implements AdapterVi
             Log.i("FiscalizadoPresenter","setItem() pk=" +Integer.toString(pk));
             item = getDatabaseHelper().getFiscalizadoDao().queryBuilder().where().idEq(pk).queryForFirst() ;
 //            buscar tambien los datos de la variedad seleccionada
-            variedad = getDatabaseHelper().getVariedadDao().queryBuilder().where().idEq(item.variedadId).queryForFirst();
+//            variedad = getDatabaseHelper().getVariedadDao().queryBuilder().where().idEq(item.variedadId).queryForFirst();
 //            y cargar en la vista del spinner los datos de la variedad
 //            seleccionada, y cuando se guarda el item limpiar el combo
             notifyPropertyChanged(BR.item);
-            notifyPropertyChanged(BR.variedad);
+            notifyPropertyChanged(BR.variedadId);
         } catch (SQLException e) {
 
             e.printStackTrace();
@@ -138,15 +140,15 @@ public class FiscalizadoPresenter extends AbstractPresenter implements AdapterVi
         return "";
     }
 
-    public void setVariedad(Variedad variedad) {
-        if(variedad != null) {
-            item.variedadNombre = variedad.nombre;
-            item.codigoVariedad = variedad.codigo;
-        }
-        else {
-            item.variedadNombre = "";
-            item.codigoVariedad = "";
-        }
+
+    //
+
+    public Integer getVariedad() {
+        return 0;
+    }
+
+    public void setVariedad(Integer pk) {
+
     }
 
 
@@ -159,7 +161,7 @@ public class FiscalizadoPresenter extends AbstractPresenter implements AdapterVi
         //guardar los datos
 //        Fiscalizado fiscalizado =new Fiscalizado(fiscalia, equipo, variedad.codigo, variedad.nombre,  Integer.parseInt(cantidad),  Integer.parseInt(medidaMayor), observacion, new Date());
         Log.i("FiscalizadoPresenter:","Metodo.save()"+ item.toString());
-        setVariedad(variedad);
+//        setVariedad(variedad);
         String result;
         try {
             if (item.id == 0) {
@@ -214,14 +216,14 @@ public class FiscalizadoPresenter extends AbstractPresenter implements AdapterVi
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             Log.i("FiscalizadoPresenter", "onItemSelected:");
             Variedad variedad = (Variedad) parent.getItemAtPosition(position);
-            setVariedad(variedad);
+//            setVariedad(variedad);
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
             Log.i("FiscalizadoPresenter", "onNothingSelected:");
-            setVariedad(null);
+//            setVariedad(null);
     }
 
 

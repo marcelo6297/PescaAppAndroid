@@ -29,6 +29,10 @@ public class Variedad {
         this.nombre = nombre;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
     @Override
     public String toString() {
         return this.nombre;
