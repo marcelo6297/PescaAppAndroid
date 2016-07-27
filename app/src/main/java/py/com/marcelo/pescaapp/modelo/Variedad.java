@@ -37,4 +37,23 @@ public class Variedad {
     public String toString() {
         return this.nombre;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Variedad variedad = (Variedad) o;
+
+        if (id != variedad.id) return false;
+        return nombre != null ? nombre.equals(variedad.nombre) : variedad.nombre == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (nombre != null ? nombre.hashCode() : 0);
+        return result;
+    }
 }

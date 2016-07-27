@@ -32,7 +32,7 @@ import py.com.marcelo.pescaapp.modelo.Variedad;
  *
  *
  */
-public class FiscalizadoPresenter extends AbstractPresenter implements AdapterView.OnItemSelectedListener{
+public class FiscalizadoPresenter extends AbstractPresenter {
 
 
     @Bindable
@@ -48,10 +48,18 @@ public class FiscalizadoPresenter extends AbstractPresenter implements AdapterVi
     @Bindable
     String activityTitle = "Agregar / Actualizar";
 
-    @Bindable
-    Integer variedadId = null;
-
     Variedad variedad = null;
+
+    @Bindable
+    Integer posicion = 0;
+
+    public MyItemListener getListener() {
+        return listener;
+    }
+
+    //Listener
+    @Bindable
+    MyItemListener listener = null;
 
 
     private VariedadesAdapter variedadesAdapter = null;
@@ -60,6 +68,7 @@ public class FiscalizadoPresenter extends AbstractPresenter implements AdapterVi
     public FiscalizadoPresenter(Context context) {
         super(context);
         item = new Fiscalizado();
+        listener = new MyItemListener();
     }
 
 
@@ -79,11 +88,13 @@ public class FiscalizadoPresenter extends AbstractPresenter implements AdapterVi
             Log.i("FiscalizadoPresenter","setItem() pk=" +Integer.toString(pk));
             item = getDatabaseHelper().getFiscalizadoDao().queryBuilder().where().idEq(pk).queryForFirst() ;
 //            buscar tambien los datos de la variedad seleccionada
-//            variedad = getDatabaseHelper().getVariedadDao().queryBuilder().where().idEq(item.variedadId).queryForFirst();
+            variedad = getDatabaseHelper().getVariedadDao().queryBuilder().where().idEq(item.variedadId).queryForFirst();
 //            y cargar en la vista del spinner los datos de la variedad
+
+
 //            seleccionada, y cuando se guarda el item limpiar el combo
             notifyPropertyChanged(BR.item);
-            notifyPropertyChanged(BR.variedadId);
+            notifyPropertyChanged(BR.posicion);
         } catch (SQLException e) {
 
             e.printStackTrace();
@@ -142,14 +153,32 @@ public class FiscalizadoPresenter extends AbstractPresenter implements AdapterVi
 
 
     //
-
-    public Integer getVariedad() {
-        return 0;
+    public Integer getPosicion() {
+        Log.v("FiscalizadoPresenter", "llamado getPosicion");
+        if (variedad != null) {
+            int pos = variedadesAdapter.getPosition(variedad);
+            Log.v("FiscalizadoPresenter", "posicion: " + pos);
+//            variedadesAdapter.notifyDataSetChanged();
+            return pos;
+        }
+        return -1;
     }
 
-    public void setVariedad(Integer pk) {
-
-    }
+//    public void setPosicion(Integer pk) {
+//        if (variedadesAdapter == null) {
+//            createAdapter();
+//        }
+//        variedad = variedadesAdapter.getItem(pk);
+//
+//
+//
+//    }
+//    public void setVariedad(Object object){
+//        if (object instanceof Variedad) {
+//            variedad = (Variedad) object;
+//            item.setVariedad(variedad);
+//        }
+//    }
 
 
     /**
@@ -196,6 +225,7 @@ public class FiscalizadoPresenter extends AbstractPresenter implements AdapterVi
 
     private void createAdapter() {
 
+        Log.i("FiscalizadoPresenter", "createAdapter.llamado");
         try {
             variedadList = getDatabaseHelper().getVariedadDao().queryForAll();
             Log.i( "PescaApp.FP.createAdap", variedadList.toString());
@@ -212,30 +242,52 @@ public class FiscalizadoPresenter extends AbstractPresenter implements AdapterVi
     }
 
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            Log.i("FiscalizadoPresenter", "onItemSelected:");
-            Variedad variedad = (Variedad) parent.getItemAtPosition(position);
-//            setVariedad(variedad);
-    }
+//    @Override
+//    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//
+//        Log.i("FiscalizadoPresenter", "onItemSelected:");
+//        variedad = (Variedad) parent.getItemAtPosition(position);
+//        item.setVariedad(variedad);
+//
+//    }
+//
+//    @Override
+//    public void onNothingSelected(AdapterView<?> parent) {
+//
+//            Log.i("FiscalizadoPresenter", "onNothingSelected:");
+//            variedad = null;
+//            item.setVariedad(null);
+//
+//    }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
+    class MyItemListener implements AdapterView.OnItemSelectedListener {
 
+        @Override
+        public void onItemSelected(AdapterView parent, View view, int position, long id) {
+            Log.i("FiscalizadoPresenter", "onItemSelected:" + position);
+            variedad = (Variedad) parent.getItemAtPosition(position);
+            item.setVariedad(variedad);
+
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
             Log.i("FiscalizadoPresenter", "onNothingSelected:");
-//            setVariedad(null);
+            variedad = null;
+            item.setVariedad(null);
+        }
     }
 
 
     @Override
-    public void create() {
-        super.create();
+    public void init() {
         createAdapter();
     }
 
-    public SpinnerAdapter getAdapter() {
+    public ArrayAdapter<Variedad> getAdapter() {
         if (variedadesAdapter == null) {
             //crear variedades adapter;
+            Log.v("FiscalizadoPresenter", "No se llamo al metodo init");
             createAdapter();
         }
         return variedadesAdapter;
@@ -250,7 +302,6 @@ public class FiscalizadoPresenter extends AbstractPresenter implements AdapterVi
             super(context, android.R.layout.simple_spinner_item, variedades);
             this.variedades = variedades;
         }
-
 
     }
 

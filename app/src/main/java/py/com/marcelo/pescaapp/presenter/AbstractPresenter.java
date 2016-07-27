@@ -13,7 +13,7 @@ import py.com.marcelo.pescaapp.util.DatabaseHelper;
  * La clase AbstractPresenter Tiene todos los campos que debe tener un
  * presenter que accede a la base de datos
  */
-public class AbstractPresenter extends BaseObservable implements IPresenter{
+public abstract class AbstractPresenter extends BaseObservable implements IPresenter {
     private DatabaseHelper databaseHelper = null;
     private Context context = null;
 
@@ -22,10 +22,7 @@ public class AbstractPresenter extends BaseObservable implements IPresenter{
         this.context = context;
     }
 
-    @Override
-    public void create() {
 
-    }
 
     public Context getContext() {
         return context;

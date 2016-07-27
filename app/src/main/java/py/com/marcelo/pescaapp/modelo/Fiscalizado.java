@@ -83,6 +83,17 @@ public class Fiscalizado implements ExportHelper.Exportable{
                 '}';
     }
 
+    public void setVariedad(Variedad v) {
+        if (v == null) {
+            variedadId = -1;
+            variedadNombre = "";
+            codigoVariedad = "";
+        }
+        variedadId = v.getId();
+        variedadNombre = v.nombre;
+        codigoVariedad = v.codigo;
+    }
+
 //    Constructor
 
     public Fiscalizado() {

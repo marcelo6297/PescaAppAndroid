@@ -11,7 +11,7 @@ public interface IPresenter {
     /**
      * Este metodo debe inicializar los recursos necesarios
      */
-    void create();
+    void init();
 
     /**
      * Este metodo tiene que liberar los recursos creados

@@ -8,13 +8,9 @@ import android.view.View;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.j256.ormlite.dao.Dao;
-
 import py.com.marcelo.pescaapp.databinding.ActivityAddPescadoBinding;
 import py.com.marcelo.pescaapp.modelo.Fiscalizado;
 import py.com.marcelo.pescaapp.presenter.FiscalizadoPresenter;
-import py.com.marcelo.pescaapp.util.DatabaseHelper;
 
 public class AddPescadoActivity extends AppCompatActivity {
 
@@ -61,6 +57,7 @@ public class AddPescadoActivity extends AppCompatActivity {
             // to load content from a content provider.
         //crear el fiscalizadoPresenter
         fiscalizadoPresenter = new FiscalizadoPresenter(this);
+        fiscalizadoPresenter.init();
         if (getIntent().hasExtra(ARG_ITEM_ID)) {
             int pk = getIntent().getIntExtra(ARG_ITEM_ID, 0);
             fiscalizadoPresenter.setItem(pk);
@@ -69,11 +66,11 @@ public class AddPescadoActivity extends AppCompatActivity {
 //      Bindar los objetos
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_pescado);
         binding.setPresenter(fiscalizadoPresenter);
-
-//      Crear el spinner
         Spinner spinnerVariedad = (Spinner)findViewById(R.id.spnVariedad);
-        spinnerVariedad.setAdapter(fiscalizadoPresenter.getAdapter());
-        spinnerVariedad.setOnItemSelectedListener(fiscalizadoPresenter);
+        spinnerVariedad.setSelection(5);
+        fiscalizadoPresenter.getAdapter().notifyDataSetChanged();
+//        binding.executePendingBindings();
+        spinnerVariedad.setOnItemSelectedListener(fiscalizadoPresenter.getListener());
 
 //        try {
 //            fiscalizadoDao = getHelper().getFiscalizadoDao();
