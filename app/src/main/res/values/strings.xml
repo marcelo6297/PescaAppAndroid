@@ -29,7 +29,10 @@
         <item>Always</item>
         <item>When possible</item>
         <item>Never</item>
+        <item>Cielo</item>
+        <item>Otros</item>
     </string-array>
+
     <string-array name="pref_example_list_values">
         <item>1</item>
         <item>0</item>
@@ -48,6 +51,7 @@
         <item>6 hours</item>
         <item>Never</item>
     </string-array>
+
     <string-array name="pref_sync_frequency_values">
         <item>15</item>
         <item>30</item>

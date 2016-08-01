@@ -57,9 +57,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/spnVariedad"
-            app:adapter="@{presenter.adapter}" />"
-        <!--app:selection="@{presenter.posicion}"-->
-
+            android:adapter="@{presenter.adapter}"
+            android:selectedItemPosition="@={presenter.selection}" />
+        <!--app:selection="@{presenter.selection}"-->
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

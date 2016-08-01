@@ -25,7 +25,7 @@ public class ExampleUnitTest {
         //id, nombre
         String sTest = "id,nombre";
         String sTest2 = "id,nombre";
-
         assertEquals(sTest,sTest2);
+
     }
 }

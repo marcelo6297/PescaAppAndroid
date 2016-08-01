@@ -2,6 +2,7 @@ package py.com.marcelo.pescaapp;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -16,6 +17,7 @@ public class AddPescadoActivity extends AppCompatActivity {
 
 
     public static final String ARG_ITEM_ID = "item_id";
+    private Spinner spinnerVariedad;
 
 
     FiscalizadoPresenter fiscalizadoPresenter = null;
@@ -26,15 +28,17 @@ public class AddPescadoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_pescado);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
 //                //crear los items en la base de datos
-//
+//                spinnerVariedad.setSelection(7);
+
+
 //                //
 //                int count = 0;
 //                String msg;
@@ -63,14 +67,17 @@ public class AddPescadoActivity extends AppCompatActivity {
             fiscalizadoPresenter.setItem(pk);
 
         }
+//        Colocar el adapter fuera del databinding
+        spinnerVariedad = (Spinner) findViewById(R.id.spnVariedad);
+        spinnerVariedad.setAdapter(fiscalizadoPresenter.getAdapter());
+
 //      Bindar los objetos
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_pescado);
         binding.setPresenter(fiscalizadoPresenter);
-        Spinner spinnerVariedad = (Spinner)findViewById(R.id.spnVariedad);
-        spinnerVariedad.setSelection(5);
-        fiscalizadoPresenter.getAdapter().notifyDataSetChanged();
+
+//        fiscalizadoPresenter.getAdapter().notifyDataSetChanged();
 //        binding.executePendingBindings();
-        spinnerVariedad.setOnItemSelectedListener(fiscalizadoPresenter.getListener());
+//        spinnerVariedad.setOnItemSelectedListener(fiscalizadoPresenter.getListener());
 
 //        try {
 //            fiscalizadoDao = getHelper().getFiscalizadoDao();
